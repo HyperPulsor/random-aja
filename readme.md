@@ -29,7 +29,8 @@
 4. **Menurut kamu anotasi `@Autowired` pada class Controller tersebut merupakan implementasi dari konsep apa? Dan jelaskan secara singkat cara kerja `@Autowired` tersebut dalam konteks service dan controller yang telah kamu buat.**
    - `@Autowired` merupakan implementasi dari konsep *dependency injection*. Dalam tutorial ini, `@Autowired`digunakan pada objek `BukuService` dimana berarti terjadi *dependency injection* antara Controller dan Service.
    Dari injeksi tersebut, Spring secara otomatis menginjeksi objek Service kepada Contoller yang dimana dibutuhkan oleh Controller. Selain itu, `@Autowired` memungkinkan Controller untuk langsung memanggil method dari service yang sudah diimplementasi
-   dari `BukuServiceImpl.java`.
+   dari `BukuServiceImpl.java`. Cara kerja dari `@Autowired` adalah dimana ditaruh instance dari bean `BukuService` pada bean lain yakni Controller (proses ini merupakan dependency injection). Kemudian, dengan anotasi `@Autowired` kita dapat langsung menggunakan
+   method yang sudah diimplementasikan yaitu dari `BukuServiceImpl`. Hal ini dikarenakan instance tersebut sudah otomatis diinjeksi pada bean Controller. Proses otomatis tersebut dilakukan oleh anotasi `@Autowired`.
 5. Apa perbedaan `@GetMapping` dan `@PostMapping`?
    - `@GetMapping` melakukan *handling* terhadap metode request dengan tipe `GET`. Metode dengan anotasi ini merupakan implementasi metode yang diterapkan pada page saat menerima request bertipe `GET`.
    - `@PostMapping` melakukan *handling* terhadap metode request dengan tipe `POST`. Metode dengan anotasi ini
