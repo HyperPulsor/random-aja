@@ -37,8 +37,43 @@ public class BukuController {
         return "viewall-buku";
     }
 
-    @GetMapping("buku")
-    public String detailBuku(@RequestParam("id") UUID id, Model model){
+    @GetMapping("buku/{id}/update")
+    public String getUpdateBuku(@PathVariable(value = "id") UUID id, Model model){
+        var bukuUpdate = bukuService.getBukuById(id);
+        var bukuDTOUpdate = new BukuDTO(id, bukuUpdate.getJudul(), bukuUpdate.getPenulis(),
+                bukuUpdate.getTahunTerbit(), bukuUpdate.getHarga());
+        model.addAttribute("bukuDTOUpdate", bukuDTOUpdate);
+        return "form-update-buku";
+    }
+
+    @PostMapping("buku/{id}/update")
+    public String updateBuku(@ModelAttribute BukuDTO bukuDTOUpdate, Model model){
+        if (!bukuService.validateBuku(bukuDTOUpdate.getJudul())){
+            model.addAttribute("id", bukuDTOUpdate.getId());
+            return "failed-create-buku";
+        }
+        var buku = new Buku(bukuDTOUpdate.getId(),bukuDTOUpdate.getJudul(),
+                bukuDTOUpdate.getPenulis(), bukuDTOUpdate.getTahunTerbit(), bukuDTOUpdate.getHarga());
+        bukuService.setBuku(buku);
+        return redirectPage(buku, model);
+    }
+
+    @GetMapping("buku/update")
+    public String redirectPage(Buku buku, Model model){
+        //Add variabel id buku ke 'id' untuk dirender di thymeleaf
+        model.addAttribute("id", buku.getId());
+        return "success-update-buku";
+    }
+
+    @RequestMapping("buku/{id}/delete")
+    public String deleteBuku(@PathVariable(value = "id") UUID id, Model model){
+        model.addAttribute("id", id);
+        bukuService.removeBuku(id);
+        return "success-delete-buku";
+    }
+
+    @GetMapping("buku/{id}")
+    public String detailBuku(@PathVariable(value = "id") UUID id, Model model){
         //Mendapatkan buku melalui kodeBuku
         var buku = bukuService.getBukuById(id);
         model.addAttribute("buku", buku);
@@ -49,7 +84,10 @@ public class BukuController {
     public String addBuku(@ModelAttribute BukuDTO bukuDTO, Model model){
         //Generate id buku dengan UUID
         UUID newId = UUID.randomUUID();
-
+        if (!bukuService.validateBuku(bukuDTO.getJudul())){
+            model.addAttribute("id", newId);
+            return "failed-create-buku";
+        }
         //Membuat object Buku dengan data yang berasal dari DTO
         var buku = new Buku(newId, bukuDTO.getJudul(), bukuDTO.getPenulis(),
                 bukuDTO.getTahunTerbit(), bukuDTO.getHarga());

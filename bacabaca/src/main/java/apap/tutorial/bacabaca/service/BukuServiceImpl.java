@@ -31,4 +31,32 @@ public class BukuServiceImpl implements  BukuService{
         }
         return null;
     }
+
+    @Override
+    public void setBuku(Buku bukuUpdate){
+        for (int i =0; i < listBuku.size(); i++){
+            if (listBuku.get(i).getId().equals(bukuUpdate.getId())){
+                listBuku.set(i, bukuUpdate);
+            }
+        }
+    }
+
+    @Override
+    public void removeBuku(UUID id){
+        for (int i =0; i < listBuku.size(); i++){
+            if (listBuku.get(i).getId().equals(id)){
+                listBuku.remove(listBuku.get(i));
+            }
+        }
+    }
+
+    @Override
+    public boolean validateBuku(String judul){
+        for (int i = 0; i < listBuku.size(); i++){
+            if (listBuku.get(i).getJudul().equals(judul)){
+                return false; // Ada judul yang sama pada listBuku
+            }
+        }
+        return true;
+    }
 }

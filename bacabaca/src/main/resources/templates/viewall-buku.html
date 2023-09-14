@@ -21,7 +21,9 @@
             <h5 th:text="${buku.judul}" class="card-title"></h5>
             <h6 th:text="${buku.penulis}" class="card-subtitle mb-2"></h6>
             <p th:text="'Rp'+${buku.harga}" class="card-text text-muted"></p>
-            <a type="button" class="btn btn-md btn-primary" th:href="@{/buku?id={idBuku}(idBuku=${buku.id})}">Detail</a>
+            <a type="button" class="btn btn-md btn-primary" th:href="@{/buku/{idBuku}(idBuku=${buku.id})}">Detail</a>
+            <a type="button" class="btn btn-md btn-warning" th:href="@{/buku/{idBuku}/update(idBuku=${buku.id})}">Ubah</a>
+            <a type="button" class="btn btn-md btn-danger" th:href="@{/buku/{idBuku}/delete(idBuku=${buku.id})}">Hapus</a>
           </div>
         </div>
       </div>
