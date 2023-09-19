@@ -2,30 +2,33 @@ package apap.tutorial.bacabaca.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import apap.tutorial.bacabaca.dto.BukuMapper;
+import apap.tutorial.bacabaca.repository.BukuDb;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import apap.tutorial.bacabaca.model.Buku;
 @Service
 public class BukuServiceImpl implements  BukuService{
-    private List<Buku> listBuku;
+    @Autowired
+    BukuDb bukuDB;
 
-    public BukuServiceImpl() {
-        listBuku = new ArrayList<>();
+    @Autowired
+    BukuMapper bukuMapper;
+
+    @Override
+    public void saveBuku(Buku buku){
+        bukuDB.save(buku);
     }
 
     @Override
-    public void createBuku(Buku buku) {
-        listBuku.add(buku);
+    public List<Buku> getAllBuku(){
+        return bukuDB.findAll();
     }
 
     @Override
-    public List<Buku> getAllBuku() {
-        return listBuku;
-    }
-
-    @Override
-    public Buku getBukuById(UUID id) {
-        for (Buku buku : listBuku) {
-            if (buku.getId().equals(id)) {
+    public Buku getBukuById(UUID kodeBuku){
+        for (Buku buku : getAllBuku()){
+            if (buku.getId().equals(kodeBuku)){
                 return buku;
             }
         }
@@ -33,30 +36,26 @@ public class BukuServiceImpl implements  BukuService{
     }
 
     @Override
-    public void setBuku(Buku bukuUpdate){
-        for (int i =0; i < listBuku.size(); i++){
-            if (listBuku.get(i).getId().equals(bukuUpdate.getId())){
-                listBuku.set(i, bukuUpdate);
-            }
+    public Buku updateBuku(Buku bukuFromDto){
+        Buku buku = getBukuById(bukuFromDto.getId());
+        if (buku != null){
+            buku.setHarga(bukuFromDto.getHarga());
+            buku.setJudul(bukuFromDto.getJudul());
+            buku.setListPenulis(bukuFromDto.getListPenulis());
+            buku.setTahunTerbit(bukuFromDto.getTahunTerbit());
+            buku.setPenerbit(bukuFromDto.getPenerbit());
+            bukuDB.save(buku);
         }
+        return buku;
     }
 
     @Override
-    public void removeBuku(UUID id){
-        for (int i =0; i < listBuku.size(); i++){
-            if (listBuku.get(i).getId().equals(id)){
-                listBuku.remove(listBuku.get(i));
-            }
-        }
+    public boolean isJudulExist(String judul){
+        return getAllBuku().stream().anyMatch(b -> b.getJudul().equals(judul));
     }
 
     @Override
-    public boolean validateBuku(String judul){
-        for (int i = 0; i < listBuku.size(); i++){
-            if (listBuku.get(i).getJudul().equals(judul)){
-                return false; // Ada judul yang sama pada listBuku
-            }
-        }
-        return true;
+    public boolean isJudulExist(String judul, UUID id){
+        return getAllBuku().stream().anyMatch(b -> b.getJudul().equals(judul) && !b.getId().equals(id));
     }
 }

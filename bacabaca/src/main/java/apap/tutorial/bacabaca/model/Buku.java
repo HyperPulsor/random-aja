@@ -1,57 +1,41 @@
 package apap.tutorial.bacabaca.model;
 import java.util.UUID;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.*;
+
+import java.math.BigDecimal;
+import java.util.List;
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "buku")
 public class Buku {
-    private UUID id;
+    @Id
+    private UUID id = UUID.randomUUID();
+
+    @NotNull
+    @Size(max = 100)
+    @Column(name = "judul", nullable = false)
     private String judul;
-    private String penulis;
+
+    @NotNull
+    @Size(max = 4)
+    @Column(name = "tahun_terbit", nullable = false)
     private String tahunTerbit;
-    private int harga;
 
-    public Buku(UUID id, String judul, String penulis, String tahunTerbit, int harga) {
-        this.id = id;
-        this.judul = judul;
-        this.penulis = penulis;
-        this.tahunTerbit = tahunTerbit;
-        this.harga = harga;
-    }
+    @NotNull
+    @Column(name = "harga", nullable = false)
+    private BigDecimal harga;
 
-    public UUID getId() {
-        return id;
-    }
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_penerbit", referencedColumnName = "idPenerbit")
+    private Penerbit penerbit;
 
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public String getJudul() {
-        return judul;
-    }
-
-    public void setJudul(String judul) {
-        this.judul = judul;
-    }
-
-    public String getPenulis() {
-        return penulis;
-    }
-
-    public void setPenulis(String penulis) {
-        this.penulis = penulis;
-    }
-
-    public String getTahunTerbit() {
-        return tahunTerbit;
-    }
-
-    public void setTahunTerbit(String tahunTerbit) {
-        this.tahunTerbit = tahunTerbit;
-    }
-
-    public int getHarga() {
-        return harga;
-    }
-
-    public void setHarga(int harga) {
-        this.harga = harga;
-    }
+    @ManyToMany
+    @JoinTable(name = "penulis_buku", joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "id_penulis"))
+    List<Penulis> listPenulis;
 }
