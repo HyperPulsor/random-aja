@@ -18,4 +18,6 @@ public interface BukuService {
     boolean isJudulExist(String judul, UUID id);
 
     Buku updateBuku(Buku buku);
+
+    void deleteBuku(Buku buku);
 }

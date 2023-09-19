@@ -51,6 +51,7 @@ public class BukuController {
     public String formUpdateBuku(@PathVariable("id") UUID id, Model model){
         var buku = bukuService.getBukuById(id);
         var bukuDTO = bukuMapper.bukuToUpdateBukuRequestDTO(buku);
+        model.addAttribute("listPenerbit", penerbitService.getAllPenerbit());
         model.addAttribute("bukuDTO", bukuDTO);
         return "form-update-buku";
     }
@@ -71,8 +72,9 @@ public class BukuController {
 
     @RequestMapping("buku/{id}/delete")
     public String deleteBuku(@PathVariable(value = "id") UUID id, Model model){
+        var buku = bukuService.getBukuById(id);
+        bukuService.deleteBuku(buku);
         model.addAttribute("id", id);
-//         bukuService.removeBuku(id);
         return "success-delete-buku";
     }
 

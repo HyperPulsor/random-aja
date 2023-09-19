@@ -1,5 +1,4 @@
 package apap.tutorial.bacabaca.service;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import apap.tutorial.bacabaca.dto.BukuMapper;
@@ -10,19 +9,19 @@ import apap.tutorial.bacabaca.model.Buku;
 @Service
 public class BukuServiceImpl implements  BukuService{
     @Autowired
-    BukuDb bukuDB;
+    BukuDb bukuDb;
 
     @Autowired
     BukuMapper bukuMapper;
 
     @Override
     public void saveBuku(Buku buku){
-        bukuDB.save(buku);
+        bukuDb.save(buku);
     }
 
     @Override
     public List<Buku> getAllBuku(){
-        return bukuDB.findAll();
+        return bukuDb.findAll();
     }
 
     @Override
@@ -44,7 +43,7 @@ public class BukuServiceImpl implements  BukuService{
             buku.setListPenulis(bukuFromDto.getListPenulis());
             buku.setTahunTerbit(bukuFromDto.getTahunTerbit());
             buku.setPenerbit(bukuFromDto.getPenerbit());
-            bukuDB.save(buku);
+            bukuDb.save(buku);
         }
         return buku;
     }
@@ -57,5 +56,10 @@ public class BukuServiceImpl implements  BukuService{
     @Override
     public boolean isJudulExist(String judul, UUID id){
         return getAllBuku().stream().anyMatch(b -> b.getJudul().equals(judul) && !b.getId().equals(id));
+    }
+
+    @Override
+    public void deleteBuku(Buku buku){
+        bukuDb.delete(buku);
     }
 }
