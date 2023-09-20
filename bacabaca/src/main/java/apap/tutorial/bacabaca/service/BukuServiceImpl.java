@@ -11,9 +11,6 @@ public class BukuServiceImpl implements  BukuService{
     @Autowired
     BukuDb bukuDb;
 
-    @Autowired
-    BukuMapper bukuMapper;
-
     @Override
     public void saveBuku(Buku buku){
         bukuDb.save(buku);
