@@ -20,4 +20,8 @@ public interface BukuService {
     Buku updateBuku(Buku buku);
 
     void deleteBuku(Buku buku);
+
+    List<Buku> searchBukuJudul(String judul);
+
+    List<Buku> orderBukuJudul();
 }

@@ -1,9 +1,12 @@
 package apap.tutorial.bacabaca.model;
 import java.util.UUID;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -13,6 +16,8 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "buku")
+@SQLDelete(sql = "UPDATE buku SET is_deleted = true WHERE id=?")
+@Where(clause = "is_deleted=false")
 public class Buku {
     @Id
     private UUID id = UUID.randomUUID();
@@ -38,4 +43,8 @@ public class Buku {
     @ManyToMany
     @JoinTable(name = "penulis_buku", joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "id_penulis"))
     List<Penulis> listPenulis;
+
+    @NotNull
+    @Column(name = "is_deleted", nullable = false)
+    private boolean isdDeleted = Boolean.FALSE;
 }

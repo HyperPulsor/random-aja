@@ -1,7 +1,7 @@
 package apap.tutorial.bacabaca.service;
 import java.util.List;
 import java.util.UUID;
-import apap.tutorial.bacabaca.dto.BukuMapper;
+
 import apap.tutorial.bacabaca.repository.BukuDb;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,13 @@ public class BukuServiceImpl implements  BukuService{
 
     @Override
     public List<Buku> getAllBuku(){
-        return bukuDb.findAll();
+        var listNoDelete = bukuDb.findAll();
+        for (int i = 0; i < listNoDelete.size(); i++){
+            if (listNoDelete.get(i).isIsdDeleted() == Boolean.TRUE){
+                listNoDelete.remove(i);
+            }
+        }
+        return listNoDelete;
     }
 
     @Override
@@ -58,5 +64,15 @@ public class BukuServiceImpl implements  BukuService{
     @Override
     public void deleteBuku(Buku buku){
         bukuDb.delete(buku);
+    }
+
+    @Override
+    public List<Buku> searchBukuJudul(String judul){
+        return bukuDb.findByJudulIgnoreCase(judul);
+    }
+
+    @Override
+    public List<Buku> orderBukuJudul(){
+        return bukuDb.findAllByOrderByJudulAsc();
     }
 }

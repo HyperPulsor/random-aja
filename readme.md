@@ -2,6 +2,33 @@
 ## Authors
 
 * **Rakan Fasya Athhar Rayyan** - *2106750950* - *B*
+
+## Tutorial 3
+### What I have learned today
+1. Penggunaan Annotation
+2. 
+
+### Pertanyaan
+1. **Jelaskan apa itu ORM pada spring serta apa fungsi dan kegunaanya?**
+   - ORM atau Object Relational Mapping merupakan *design pattern* yang digunakan
+   untuk mengakses database relasional lewat pendekatan *object-oriented*. Pada
+   Spring, JPA (Java Persistence API) merupakan implementasi dari ORM dimana menjembatani antara
+   domain model *object-oriented* dan sistem database relasional. Fungsi dari ORM
+   adalah untuk mengakses database relasional lewat suatu objek data tanpa harus
+   menggunakan SQL.
+2. **Jelaskan secara singkat apa itu dan kegunaan dari tag-tag dibawah ini.**
+(`@Entity`, `@Table`, `@Column`)
+3. **Pada relasi buku ke penulis, terdapat tag**
+`@JoinTable(name = "penulis_buku", joinColumns = @JoinColumn(name = "id"),
+inverseJoinColumns = @JoinColumn(name = "id_penulis"))`
+**Jelaskan maksud dari tag @JoinTable tersebut beserta parameternya (name, joinColumns, inverseJoinColumns) dan implementasinya pada database.**
+4. **Bagaimana cara kerja dari dependensi java mapper, yaitu mapstruct?**
+5. **Apa keuntungan dari implementasi soft delete?**
+
+### What I did not understand
+- [x] Cara kerja @Autowired dibalik layar
+- [x] Alasan DTO digunakan sebagai media transfer data
+
 ## Tutorial 2
 ### What I have learned today
 1. Penggunaan DTO dalam pembuatan objek baru untuk passing data
@@ -98,7 +125,7 @@
 ### What I did not understand
 - [x] Pengembangan website menggunakan Java, Spring Boot, dan Spring Framework
 - [ ] Fungsionalitas Maven untuk proyek skala besar
-- [ ] Library & dependencies yang dibutuhkan untuk proyek skala besar
+- [x] Library & dependencies yang dibutuhkan untuk proyek skala besar
 - [x] Fungsionalitas lebih dari Issue Tracker
 
 ### Referensi

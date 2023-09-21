@@ -5,12 +5,17 @@ import apap.tutorial.bacabaca.dto.request.UpdateBukuRequestDTO;
 import apap.tutorial.bacabaca.model.Buku;
 import apap.tutorial.bacabaca.service.BukuService;
 import apap.tutorial.bacabaca.service.PenerbitService;
+import jakarta.persistence.OrderBy;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
+import javax.naming.Binding;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 @Controller
@@ -40,8 +45,8 @@ public class BukuController {
     @GetMapping("buku/viewall")
     public String listBuku(Model model){
         //Mendapatkan semua buku
-        List<Buku> listBuku = bukuService.getAllBuku();
-
+        //List<Buku> listBuku = bukuService.getAllBuku();
+        List<Buku> listBuku = bukuService.orderBukuJudul();
         //Add variabel semua bukuModel ke "ListBuku" untuk dirender pada thymeleaf
         model.addAttribute("listBuku", listBuku);
         return "viewall-buku";
@@ -57,7 +62,17 @@ public class BukuController {
     }
 
     @PostMapping("buku/update")
-    public String updateBuku(@ModelAttribute UpdateBukuRequestDTO bukuDTO, Model model){
+    public String updateBuku(@Valid @ModelAttribute UpdateBukuRequestDTO bukuDTO, BindingResult bindingResult,Model model){
+        if (bindingResult.hasErrors()){
+            List<ObjectError> listErrors = bindingResult.getAllErrors();
+            var errorMessage = "";
+            for (int i = 0; i < listErrors.size(); i++){
+                errorMessage += listErrors.get(i).getDefaultMessage() + "\n";
+            }
+            model.addAttribute("errorMessage", errorMessage);
+            return "error-view";
+        }
+
         if (bukuService.isJudulExist(bukuDTO.getJudul(), bukuDTO.getId())){
             var errorMessage = "Maaf, judul buku sudah ada";
             model.addAttribute("errorMessage", errorMessage);
@@ -82,12 +97,35 @@ public class BukuController {
     public String detailBuku(@PathVariable(value = "id") UUID id, Model model){
         //Mendapatkan buku melalui kodeBuku
         var buku = bukuService.getBukuById(id);
-        model.addAttribute("buku", buku);
+        var bukuDTO = bukuMapper.bukuToReadBukuResponseDTO(buku);
+        model.addAttribute("buku", bukuDTO);
         return "view-buku";
     }
 
+    @PostMapping("buku/search")
+    public String searchBuku(@RequestParam(value="search", required = false)String judul, Model model){
+        List<Buku> listFilter;
+        if (!judul.isEmpty()){
+            listFilter = bukuService.searchBukuJudul(judul);
+        } else {
+            listFilter = bukuService.getAllBuku();
+        }
+        model.addAttribute("listBuku", listFilter);
+        return "viewall-buku";
+    }
+
     @PostMapping("buku/create")
-    public String addBuku(@Valid @ModelAttribute CreateBukuRequestDTO bukuDTO, Model model){
+    public String addBuku(@Valid @ModelAttribute CreateBukuRequestDTO bukuDTO, BindingResult bindingResult, Model model){
+        if (bindingResult.hasErrors()){
+            List<ObjectError> listErrors = bindingResult.getAllErrors();
+            StringBuilder errorMessage = new StringBuilder();
+            for (int i = 0; i < listErrors.size(); i++){
+                errorMessage.append(listErrors.get(i).getDefaultMessage()).append("\n");
+            }
+            model.addAttribute("errorMessage", errorMessage.toString());
+            return "error-view";
+        }
+
         if (bukuService.isJudulExist(bukuDTO.getJudul())){
             var errorMessage = "Maaf, judul buku sudah ada";
             model.addAttribute("errorMessage", errorMessage);
