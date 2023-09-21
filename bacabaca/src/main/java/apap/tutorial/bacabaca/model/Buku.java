@@ -47,4 +47,13 @@ public class Buku {
     @NotNull
     @Column(name = "is_deleted", nullable = false)
     private boolean isdDeleted = Boolean.FALSE;
+
+    @NotNull
+    @Column(name = "judul_lower", nullable = false)
+    private String judulLower;
+
+    public void setJudul(String judul){
+        this.judul = judul;
+        this.judulLower = judul.toLowerCase();
+    }
 }

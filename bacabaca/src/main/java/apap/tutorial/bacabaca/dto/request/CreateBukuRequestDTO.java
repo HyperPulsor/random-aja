@@ -22,11 +22,18 @@ public class CreateBukuRequestDTO {
     private String tahunTerbit;
 
     @NotNull(message = "Harga tidak boleh kosong")
-    @DecimalMin(value = "10000.0", message = "Harga harus sesuai standar penjualan buku")
+    @DecimalMin(value = "0.0", message = "Harga tidak boleh negatif")
     private BigDecimal harga;
 
     @NotNull(message = "Pilih suatu penerbit")
     private Penerbit penerbit;
 
     private boolean isDeleted;
+
+    private String judulLower;
+
+    public void setJudul(String judul){
+        this.judul = judul;
+        this.judulLower = judul.toLowerCase();
+    }
 }

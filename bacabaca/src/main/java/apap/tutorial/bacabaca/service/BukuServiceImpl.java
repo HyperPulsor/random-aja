@@ -18,7 +18,7 @@ public class BukuServiceImpl implements  BukuService{
 
     @Override
     public List<Buku> getAllBuku(){
-        var listNoDelete = bukuDb.findAll();
+        var listNoDelete = bukuDb.findAllByOrderByJudulLowerAsc();
         for (int i = 0; i < listNoDelete.size(); i++){
             if (listNoDelete.get(i).isIsdDeleted() == Boolean.TRUE){
                 listNoDelete.remove(i);
@@ -73,6 +73,6 @@ public class BukuServiceImpl implements  BukuService{
 
     @Override
     public List<Buku> orderBukuJudul(){
-        return bukuDb.findAllByOrderByJudulAsc();
+        return bukuDb.findAllByOrderByJudulLowerAsc();
     }
 }

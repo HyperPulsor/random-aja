@@ -8,5 +8,5 @@ import java.util.UUID;
 @Repository
 public interface BukuDb extends  JpaRepository<Buku, UUID> {
     List<Buku> findByJudulIgnoreCase(String judul);
-    List<Buku> findAllByOrderByJudulAsc();
+    List<Buku> findAllByOrderByJudulLowerAsc();
 }
