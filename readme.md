@@ -2,6 +2,82 @@
 ## Authors
 
 * **Rakan Fasya Athhar Rayyan** - *2106750950* - *B*
+
+## Tutorial 3
+### What I have learned today
+1. Penggunaan Annotation dalam Spring Boot
+2. Konversi antar dua objek dengan MapStruct
+3. Penggunaan Derived Query Method untuk pencarian data
+4. Penggunaan JPA validation constraint untuk validasi input
+
+### Pertanyaan
+1. **Jelaskan apa itu ORM pada spring serta apa fungsi dan kegunaanya?**
+   - ORM atau Object Relational Mapping merupakan *design pattern* yang digunakan
+   untuk mengakses database relasional lewat pendekatan *object-oriented*. Pada
+   Spring, JPA (Java Persistence API) merupakan implementasi dari ORM dimana menjembatani antara
+   domain model *object-oriented* dan sistem database relasional. Fungsi dari ORM
+   adalah untuk mengakses database relasional lewat suatu objek data tanpa harus
+   menggunakan SQL.
+2. **Jelaskan secara singkat apa itu dan kegunaan dari tag-tag dibawah ini.**
+(`@Entity`, `@Table`, `@Column`)
+   - `@Entity` merupakan anotasi yang memetakan suatu class Java
+   ke dalam suatu tabel pada database relasional. Fungsinya adalah
+   supaya JPA mengenali bahwa class Java merepresentasikan suatu
+   tabel pada database relasional.
+   - `@Table` meruapakan anotasi yang memetakan suatu tabel pada relational database
+   ke dalam *object-oriented* berupa class Java. Fungsinya sama dengan `@Entity`, hanya saja
+   `@Table` bersifat *relation-oriented* sebagai representasi tabel pada database relational (SQL)
+   dan`@Entity` bersifat *object-oriented* sebagai representasi tabel pada class Java atau *logical-side*.
+   Selain itu, kita dapat memberikan detail tabel, seperti nama tabel dan nama skema.
+   - `@Column` merupakan anotasi yang merepresentasikan detail kolom pada tabel. Fungsi
+   nya adalah untuk memetakan *field* atau atribut dari class Java ke dalam database relasional.
+3. **Pada relasi buku ke penulis, terdapat tag**
+`@JoinTable(name = "penulis_buku", joinColumns = @JoinColumn(name = "id"),
+inverseJoinColumns = @JoinColumn(name = "id_penulis"))`
+   **Jelaskan maksud dari tag @JoinTable tersebut beserta parameternya (name, joinColumns, inverseJoinColumns) dan implementasinya pada database.**
+   - `@JoinTable` merupakan tag yang berfungsi untuk menggabungkan dua entitas relasi untuk mengatur
+   hubungan **Many-To-Many** dalam suatu tabel gabungan.
+     - Parameter `name` berfungsi untuk mendefinisikan nama *output* tabel akhir dari hasil penggabungan
+     dua entitas.
+     - Parameter `joinColumns` berfungsi untuk mendefinisikan kolom *foreign key* (**id**) dari entitas pemilik (**Buku**) ke
+     tabel gabungan sehingga dapat digabungkan. Kolom ini merepresentasikan hubungan antara entitias pemilik dengan tabel gabungan.
+     - Parameter `inverseJoinColumns` berfungsi untuk mendefinisikan kolom *foreign key* (**id_penulis**) dari entitas lain (**Penulis**) ke tabel gabungan
+     sehingga dapat digabungkan. Kolom ini merepresentasikan hubungan antara entitas lain dengan tabel gabungan.
+   - Implementasinya dalam database adalah untuk hubungan **Many-To-Many** antara **Buku** dan **Penulis** akan disimpan
+   pada tabel gabungan dengan nama **penulis_buku**. Menggunakan `@JoinTable`, database akan mengambil informasi untuk membuat
+   tabel gabungan tersebut dari parameter-parameter pada `@JoinTable`, yaitu nama tabel gabungan, *foreign key* yang menghubungkan
+   entitas **Buku** dengan tabel **penulis_buku**, dan *foreign key* yang menghubungkan entitas **Penulis** dan **penulis_buku**.
+   Kemudian, database akan membuat tabel **penulis_buku** yang menyimpan informasi kolom-kolom gabungan antara tabel **Buku** dan **Penulis**
+   beserta *foreign key* yang terhubung ke masing-masing entitas.
+4. **Bagaimana cara kerja dari dependensi java mapper, yaitu mapstruct?**
+   - Map Struct merupakan sebuah mapper yang berfungsi untuk secara otomatis mengonversi antar objek Java.
+   Biasanya dilakukan untuk konversi dari suatu objek DTO menjadi sebuah entitas. Cara kerja dari MapStruct adalah
+   dengan pertama menggunakan anotasi `@Mapper` pada suatu interface. Kemudian, definisikan metode pemetaan antar dua tipe objek
+   yang berbeda. Setelah metode didefinisikan, maka MapStruct akan secara otomatis mengimplementasi kode pemetaan antar dua tipe objek,
+   tetapi perlu digenerate oleh Gradle. Setelah digenerate, kita dapat langsung menggunakannya dengan membuat instance dari interface mapper
+   dan menggunakan metode yang telah digenerate.
+   
+5. **Apa keuntungan dari implementasi soft delete?**
+   - Dengan mengimplementasi *soft delete*, terdapat beberapa keuntungan seperti :
+     - **Restorasi data**, adanya *soft delete* memungkinkan kita untuk melakukan restorasi data karena data pada
+     database tidak benar-benar "hilang" atau terhapus secara permanen.
+     - **Log Data**, adanya *soft delete* memungkinkan kita untuk melakukan *tracking* atau audit terhadap data-data bahkan setelah
+     "dihapus". Data-data ini dapat digunakan untuk kebutuhan analitis atau untuk permasalahan legal.
+     - **Penghapusan secara dua tahap**, adanya *soft delete* mencegah kecelakaan dalam ketidaksengajaan penghapusan
+     data. Dengan implementasi ini, penghapusan data benar-benar harus berdasarkan keputusan bulat milik penghapus.
+     Pendekatan ini juga memungkinkan izin dari banyak user untuk benar-benar menghapus data secara permanen dari database.
+     - 
+### What I did not understand
+- [ ] Perbedaan @BeforeMapping dan @AfterMapping
+
+### Referensi
+- https://www.baeldung.com/jpa-entities
+- https://forum.hibernate.org/viewtopic.php?p=2370232#:~:text=Entity%20is%20object%2Doriented%20and,name%20in%20the%20native%20SQL.
+- https://www.baeldung.com/jpa-many-to-many
+- https://www.javaguides.net/2023/07/jpa-jointable-annotation.html
+- https://refactorizando.com/en/guide-to-mapstruct-with-spring-boot/
+- https://stackabuse.com/guide-to-mapstruct-in-java-advanced-mapping-library/
+- https://www.honeybadger.io/blog/a-guide-to-soft-deletes-in-laravel/#:~:text=Data%20recovery%20and%20restoration,advantage%20of%20using%20soft%20deletes.
 ## Tutorial 2
 ### What I have learned today
 1. Penggunaan DTO dalam pembuatan objek baru untuk passing data
@@ -98,7 +174,7 @@
 ### What I did not understand
 - [x] Pengembangan website menggunakan Java, Spring Boot, dan Spring Framework
 - [ ] Fungsionalitas Maven untuk proyek skala besar
-- [ ] Library & dependencies yang dibutuhkan untuk proyek skala besar
+- [x] Library & dependencies yang dibutuhkan untuk proyek skala besar
 - [x] Fungsionalitas lebih dari Issue Tracker
 
 ### Referensi
