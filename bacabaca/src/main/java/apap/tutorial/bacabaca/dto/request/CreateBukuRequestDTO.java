@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import apap.tutorial.bacabaca.model.Buku;
 import apap.tutorial.bacabaca.model.Penerbit;
+import apap.tutorial.bacabaca.model.Penulis;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -27,6 +28,7 @@ public class CreateBukuRequestDTO {
 
     @NotNull(message = "Pilih suatu penerbit")
     private Penerbit penerbit;
+    private List<Penulis> listPenulis;
 
     private boolean isDeleted;
 

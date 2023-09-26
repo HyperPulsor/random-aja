@@ -7,9 +7,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.ArrayList;
 import java.util.List;
-@Getter
+
 @Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -28,7 +31,9 @@ public class Penulis {
     @Column(name = "biografi", nullable = false)
     private String biografi;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "listPenulis", fetch = FetchType.LAZY)
     List<Buku> listBuku;
-}
 
+    @OneToMany(mappedBy = "penulis", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Sertifikasi> listSertifikasi = new ArrayList<>();
+}

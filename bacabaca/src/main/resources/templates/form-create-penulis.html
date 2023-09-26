@@ -7,26 +7,21 @@
     <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
     <title>Form Add Penerbit</title>
 </head>
-
 <body>
 <nav th:replace="~{fragments/navbar :: navbar}"></nav>
 <div class="container">
     <div class="card m-4 p-4">
         <div class="card-body">
             <div class="justify-content-center">
-                <h2>Tambah Penerbit </h2>
+                <h2>Tambah Penulis</h2>
                 <br>
-                <form th:action="@{/penerbit/create}" th:object="${penerbitDTO}" method="POST">
-                    Nama Penerbit: <br>
-                    <input class="form-control" type="text" th:field="*{namaPenerbit}" />
+                <form th:action="@{/penulis/create}" th:object="${penulisDTO}" method="POST">
+                    Nama Penulis: <br>
+                    <input class="form-control" type="text" th:field="*{namaPenulis}">
                     <br><br>
 
-                    Alamat: <br>
-                    <input class="form-control" type="text" th:field="*{alamat}" />
-                    <br><br>
-
-                    Email: <br>
-                    <input required class="form-control" type="email" th:field="*{email}" />
+                    Biografi: <br>
+                    <input class="form-control" th:field="*{biografi}">
                     <br><br>
 
                     <button class="btn btn-primary" type="submit">Submit</button>
