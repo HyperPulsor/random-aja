@@ -3,6 +3,60 @@
 
 * **Rakan Fasya Athhar Rayyan** - *2106750950* - *B*
 
+## Tutorial 4
+### What I have learned today
+1. Fungsi pagination dan Datatables
+2. Implementasi Dynamic Form
+3. Environment Database
+4. Error handling
+
+### Pertanyaan
+1. **Pada file html project bacabaca, terdapat baris kode berikut. `<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">`
+Apa itu xmlns? Jawab dengan singkat dan padat.**
+    - Xmlns merupakan singkatan dari XML Namespace. Pada dasarnya, semua elemen atau atribut pada XML
+   terletak ke suatu ruang nama atau *namespace*. Namespace digunakan supaya ketika terdapat dua XML pada satu dokumen,
+   tidak terjadi konflik apabila terdapat nama atribut yang sama.
+
+2. **Jelaskan perbedaan th:include dan th:replace! Jawab dengan singkat dan padat.**
+    - Pada saat menggunakan `th:include`, fragments akan ditaruh dalam tag yang menggunakannya. Sedangkan, saat
+   menggunakan `th:replace`, fragments akan menggantikan tag yang menggunakannya.
+
+3. **Kapan sebaiknya kita menggunakan static files dibandingkan dengan file eksternal menggunakan link?  Jawab dengan singkat dan padat.**
+    - Static files digunakan apabila kita ingin memiliki kendali penuh terhadap konten tersebut dan file
+   tidak berganti-ganti. Sedangkan, dengan file eksternal link dapat diganti-diganti isi kontennya dan tidak perlu
+   mengubah link. Penggunaan file eksternal link juga dapat menghemat penyimpanan.
+
+4. **Jelaskan caramu menyelesaikan latihan no 2.**
+    - Menambahkan method `addRowPenulisBukuUpdate` dan `deleteRowPenulisBukuUpdate` untuk handle penambahan dan pengurangan 
+    list Penulis baru. Untuk buku dengan tidak ada Penulis, membuat listPenulis baru. Sedangkan, buku dengan Penulis menambahkan
+   Penulis kosong pada List yang akan dimasukkan.
+    - Mengubah file html `form-update-buku` dengan iterasi listPenulis dan listPenulisExisting sehingga
+   mendapatkan idPenulis dan namaPenulis. Selain itu, menambahkan tombol untuk Add Row dengan nama yang sesuai
+   pada parameter method `deleteRowPenulisBukuUpdate` sehingga menjadi parameter untuk row yang akan dihapus.
+
+5. **Jelaskan apa itu pagination! Jawab dengan singkat dan padat.**
+    - Pagination adalah pembagian konten menjadi beberapa halaman terpisah sehingga
+   lebih mudah untuk di navigasi. Selain itu, pada pagination dapat dilakukan sort secara
+   ascending atau descending.
+
+6. **Sebutkan salah satu skenario yang mengharuskan adanya perbedaan dev dan prod dan jelaskan alasannya!**
+    - Skenarionya adalah pada saat kita mengelola database dengan data yang besar. Apabila, tidak terdapat perbedaan
+   environment, maka database untuk production akan digabung. Hal ini berpotensi bahaya karena apabila pengembang melakukan
+   implementasi dan pengubahan database, akan terganti atau terhapus data-data asli yang digunakan pada website. Dengan adanya
+   perbedaan dev dan prod, akan menghindarkan dari pergantian atau penghapusan data karena dataabse asli website berbeda
+   dengan database implementasi pengembangan.
+
+7. **Lampirkan screenshot kalau kamu sudah berhasil membuat user untuk environment production serta bukti bahwa kamu sudah berhasil mengakses database production dengan user tersebut!**
+   ![Screenshot_671](https://github.com/HyperPulsor/Lab1Repo/assets/101686378/f960307d-ccd1-4240-b095-e8e8194ff600)
+   ![Screenshot_673](https://github.com/HyperPulsor/Lab1Repo/assets/101686378/d8c6ce6c-2f9d-44f1-9035-89b22e8e6609)
+
+### What I did not understand
+- [X] None
+
+### Referensi
+https://stackoverflow.com/questions/1181888/what-does-xmlns-in-xml-mean
+https://stackoverflow.com/questions/37103958/difference-between-thymeleaf-include-and-replace
+
 ## Tutorial 3
 ### What I have learned today
 1. Penggunaan Annotation dalam Spring Boot
