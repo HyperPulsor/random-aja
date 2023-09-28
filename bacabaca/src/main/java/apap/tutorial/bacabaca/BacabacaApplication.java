@@ -14,15 +14,17 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Profile;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
-
 @SpringBootApplication
 public class BacabacaApplication {
 
 	public static void main(String[] args) {
+		System.setProperty("spring.profiles.prod", "prod");
 		SpringApplication.run(BacabacaApplication.class, args);
 	}
 
