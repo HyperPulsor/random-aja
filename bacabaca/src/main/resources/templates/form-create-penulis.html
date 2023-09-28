@@ -5,10 +5,10 @@
     <meta charset="UTF-8" />
     <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
     <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
-    <title>Form Add Penerbit</title>
+    <title>Form Add Penulis</title>
 </head>
 <body>
-<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+<nav th:replace="~{fragments/navbar :: navbar(page='penulis')}"></nav>
 <div class="container">
     <div class="card m-4 p-4">
         <div class="card-body">
@@ -24,6 +24,25 @@
                     <input class="form-control" th:field="*{biografi}">
                     <br><br>
 
+                    Sertifikasi:
+                    <table class="table">
+                        <th classs="d-flex justify-content-end">
+                            <button class="btn btn-primary" type="submit" name="addRow" style="text-align:right">Tambah Row</button>
+                        </th>
+                        <tbody>
+                            <tr th:each="sertifikasi, iterationStatus : *{listSertifikasi}">
+                                <td>
+                                    <input class="form-control" type="text" th:field="*{listSertifikasi[__${iterationStatus.index}__].namaSertifikasi}" placeholder="Nama Sertifikasi">
+                                </td>
+                                <td>
+                                    <input class="form-control" type="text" th:field="*{listSertifikasi[__${iterationStatus.index}__].penerbitSertifikasi}" placeholder="Penerbit Sertifikasi">
+                                </td>
+                                <td>
+                                    <button th:value="${iterationStatus.index}" class="btn btn-danger" type="submit" name="deleteRow">Hapus</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                     <button class="btn btn-primary" type="submit">Submit</button>
                     <a class="btn btn-primary" href="/">Home</a>
                 </form>

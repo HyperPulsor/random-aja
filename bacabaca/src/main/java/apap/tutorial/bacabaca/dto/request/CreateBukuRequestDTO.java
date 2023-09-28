@@ -7,9 +7,8 @@ import apap.tutorial.bacabaca.model.Penerbit;
 import apap.tutorial.bacabaca.model.Penulis;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
