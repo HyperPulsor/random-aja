@@ -2,6 +2,7 @@ package apap.tutorial.bacabaca.service;
 import java.util.List;
 import java.util.UUID;
 
+import apap.tutorial.bacabaca.model.Penerbit;
 import apap.tutorial.bacabaca.repository.BukuDb;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -74,5 +75,9 @@ public class BukuServiceImpl implements  BukuService{
     @Override
     public List<Buku> orderBukuJudul(){
         return bukuDb.findAllByOrderByJudulLowerAsc();
+    }
+
+    public List<Buku> viewBukuPenerbitTahun(Penerbit penerbit, String tahun){
+        return bukuDb.findByPenerbitAndTahunTerbit(penerbit, tahun);
     }
 }

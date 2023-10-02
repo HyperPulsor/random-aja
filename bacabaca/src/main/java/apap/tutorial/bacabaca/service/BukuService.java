@@ -1,5 +1,7 @@
 package apap.tutorial.bacabaca.service;
 import apap.tutorial.bacabaca.model.Buku;
+import apap.tutorial.bacabaca.model.Penerbit;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -24,4 +26,5 @@ public interface BukuService {
     List<Buku> searchBukuJudul(String judul);
 
     List<Buku> orderBukuJudul();
+    List<Buku> viewBukuPenerbitTahun(Penerbit penerbit, String tahun);
 }

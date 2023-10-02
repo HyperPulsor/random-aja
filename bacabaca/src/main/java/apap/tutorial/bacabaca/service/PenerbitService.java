@@ -9,4 +9,6 @@ public interface PenerbitService {
     List<Penerbit> getAllPenerbit();
 
     Penerbit getPenerbitById(Long idPenerbit);
+
+    Penerbit getPenerbitByNama(String penerbit);
 }

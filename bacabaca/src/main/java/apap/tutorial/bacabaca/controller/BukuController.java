@@ -3,6 +3,7 @@ import apap.tutorial.bacabaca.dto.BukuMapper;
 import apap.tutorial.bacabaca.dto.request.CreateBukuRequestDTO;
 import apap.tutorial.bacabaca.dto.request.UpdateBukuRequestDTO;
 import apap.tutorial.bacabaca.model.Buku;
+import apap.tutorial.bacabaca.model.Penerbit;
 import apap.tutorial.bacabaca.model.Penulis;
 import apap.tutorial.bacabaca.service.BukuService;
 import apap.tutorial.bacabaca.service.PenerbitService;
@@ -102,10 +103,12 @@ public class BukuController {
     }
 
     @GetMapping("buku/viewall")
-    public String listBuku(Model model){
+    public String listBuku(@RequestParam("penerbit")String penerbit, @RequestParam("tahunTerbit")String tahunTerbit, Model model){
         //Mendapatkan semua buku
         //List<Buku> listBuku = bukuService.getAllBuku();
-        List<Buku> listBuku = bukuService.orderBukuJudul();
+//        List<Buku> listBuku = bukuService.orderBukuJudul();
+        Penerbit penerbitRequest = penerbitService.getPenerbitByNama(penerbit);
+        List<Buku> listBuku = bukuService.viewBukuPenerbitTahun(penerbitRequest, tahunTerbit);
         //Add variabel semua bukuModel ke "ListBuku" untuk dirender pada thymeleaf
         model.addAttribute("listBuku", listBuku);
         return "viewall-buku";

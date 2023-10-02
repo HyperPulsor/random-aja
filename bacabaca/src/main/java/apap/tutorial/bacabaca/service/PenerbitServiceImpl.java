@@ -12,6 +12,11 @@ public class PenerbitServiceImpl implements  PenerbitService {
     PenerbitDb penerbitDb;
 
     @Override
+    public Penerbit getPenerbitByNama(String penerbit){
+        return penerbitDb.findByNamaPenerbitIgnoreCase(penerbit);
+    }
+
+    @Override
     public Penerbit createPenerbit(Penerbit penerbit){
         return penerbitDb.save(penerbit);
     }
