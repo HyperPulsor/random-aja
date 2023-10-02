@@ -4,11 +4,11 @@ import java.util.UUID;
 
 import apap.tutorial.bacabaca.model.Buku;
 import apap.tutorial.bacabaca.model.Penerbit;
+import apap.tutorial.bacabaca.model.Penulis;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
@@ -27,6 +27,7 @@ public class CreateBukuRequestDTO {
 
     @NotNull(message = "Pilih suatu penerbit")
     private Penerbit penerbit;
+    private List<Penulis> listPenulis;
 
     private boolean isDeleted;
 
