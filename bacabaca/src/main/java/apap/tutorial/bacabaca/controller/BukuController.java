@@ -3,10 +3,13 @@ import apap.tutorial.bacabaca.dto.BukuMapper;
 import apap.tutorial.bacabaca.dto.request.CreateBukuRequestDTO;
 import apap.tutorial.bacabaca.dto.request.UpdateBukuRequestDTO;
 import apap.tutorial.bacabaca.model.Buku;
+import apap.tutorial.bacabaca.model.Penulis;
 import apap.tutorial.bacabaca.service.BukuService;
 import apap.tutorial.bacabaca.service.PenerbitService;
+import apap.tutorial.bacabaca.service.PenulisService;
 import jakarta.persistence.OrderBy;
 import jakarta.validation.Valid;
+import org.hibernate.sql.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,6 +29,8 @@ public class BukuController {
     private BukuService bukuService;
     @Autowired
     private PenerbitService penerbitService;
+    @Autowired
+    private PenulisService penulisService;
 
     @GetMapping("/")
     public String home(){
@@ -37,8 +42,62 @@ public class BukuController {
         //Membuat DTO BARU sebagai isian form pengguna
         var bukuDTO = new CreateBukuRequestDTO();
         model.addAttribute("bukuDTO", bukuDTO);
-        model.addAttribute("listPenerbit", penerbitService.getAllPenerbit());
+        var listPenerbit = penerbitService.getAllPenerbit();
+        model.addAttribute("listPenerbit", listPenerbit);
+        var listPenulisExisting = penulisService.getAllPenulis();
+        model.addAttribute("listPenulisExisting", listPenulisExisting);
 
+        return "form-create-buku";
+    }
+
+    @GetMapping("buku/viewall-with-datatables")
+    public String viewAllDatatables(Model model){
+        List<Buku> listBuku = bukuService.orderBukuJudul();
+        //Add variabel semua bukuModel ke "ListBuku" untuk dirender pada thymeleaf
+        model.addAttribute("listBuku", listBuku);
+        return "viewall-with-datatables";
+    }
+
+    @PostMapping(value = "buku/create", params = {"addRow"})
+    public String addRowPenulisBuku(@ModelAttribute CreateBukuRequestDTO createBukuRequestDTO, Model model){
+        if (createBukuRequestDTO.getListPenulis() == null || createBukuRequestDTO.getListPenulis().size() == 0){
+            createBukuRequestDTO.setListPenulis(new ArrayList<>());
+        }
+
+        createBukuRequestDTO.getListPenulis().add(new Penulis());
+        model.addAttribute("listPenulisExisting", penulisService.getAllPenulis());
+        model.addAttribute("listPenerbit", penerbitService.getAllPenerbit());
+        model.addAttribute("bukuDTO", createBukuRequestDTO);
+        return "form-create-buku";
+    }
+
+    @PostMapping(value = "buku/update", params = {"addRow"})
+    public String addRowPenulisBukuUpdate(@ModelAttribute UpdateBukuRequestDTO updateBukuRequestDTO, Model model){
+        if (updateBukuRequestDTO.getListPenulis() == null || updateBukuRequestDTO.getListPenulis().isEmpty()){
+            updateBukuRequestDTO.setListPenulis(new ArrayList<>());
+        }
+        updateBukuRequestDTO.getListPenulis().add(new Penulis());
+        model.addAttribute("listPenulisExisting", penulisService.getAllPenulis());
+        model.addAttribute("listPenerbit", penerbitService.getAllPenerbit());
+        model.addAttribute("bukuDTO", updateBukuRequestDTO);
+        return "form-update-buku";
+    }
+
+    @PostMapping(value = "buku/update", params = {"deleteRow"})
+    public String deleteRowPenulisBukuUpdate(@ModelAttribute UpdateBukuRequestDTO updateBukuRequestDTO, @RequestParam("deleteRow") int row, Model model){
+        updateBukuRequestDTO.getListPenulis().remove(row);
+        model.addAttribute("bukuDTO", updateBukuRequestDTO);
+        model.addAttribute("listPenulisExisting", penulisService.getAllPenulis());
+        model.addAttribute("listPenerbit", penerbitService.getAllPenerbit());
+        return "form-update-buku";
+    }
+
+    @PostMapping(value = "buku/create", params = {"deleteRow"})
+    public String deleteRowPenulisBuku(@ModelAttribute CreateBukuRequestDTO createBukuRequestDTO, @RequestParam("deleteRow") int row, Model model){
+        createBukuRequestDTO.getListPenulis().remove(row);
+        model.addAttribute("bukuDTO", createBukuRequestDTO);
+        model.addAttribute("listPenulisExisting", penulisService.getAllPenulis());
+        model.addAttribute("listPenerbit", penerbitService.getAllPenerbit());
         return "form-create-buku";
     }
 
@@ -56,8 +115,10 @@ public class BukuController {
     public String formUpdateBuku(@PathVariable("id") UUID id, Model model){
         var buku = bukuService.getBukuById(id);
         var bukuDTO = bukuMapper.bukuToUpdateBukuRequestDTO(buku);
+        var listPenulisExisting = penulisService.getAllPenulis();
         model.addAttribute("listPenerbit", penerbitService.getAllPenerbit());
         model.addAttribute("bukuDTO", bukuDTO);
+        model.addAttribute("listPenulisExisting", listPenulisExisting);
         return "form-update-buku";
     }
 

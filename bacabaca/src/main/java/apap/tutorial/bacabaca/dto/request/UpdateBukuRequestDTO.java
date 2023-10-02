@@ -1,9 +1,8 @@
 package apap.tutorial.bacabaca.dto.request;
 import apap.tutorial.bacabaca.model.Penerbit;
 import apap.tutorial.bacabaca.model.Penulis;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
