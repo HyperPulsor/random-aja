@@ -1,5 +1,6 @@
 package apap.tutorial.bacabaca.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -7,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.util.List;
 
@@ -16,6 +19,9 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "penerbit")
+@JsonIgnoreProperties(value={"listBuku"}, allowSetters = true)
+@SQLDelete(sql = "UPDATE penerbit SET is_deleted = true WHERE id_penerbit=?")
+@Where(clause = "is_deleted=false")
 public class Penerbit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,4 +42,8 @@ public class Penerbit {
 
     @OneToMany(mappedBy = "penerbit", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Buku> listBuku;
+
+    @NotNull
+    @Column(name = "is_deleted", nullable = false)
+    private boolean isdDeleted = Boolean.FALSE;
 }
