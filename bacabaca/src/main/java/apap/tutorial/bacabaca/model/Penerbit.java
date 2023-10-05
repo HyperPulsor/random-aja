@@ -19,7 +19,6 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "penerbit")
-@JsonIgnoreProperties(value={"listBuku"}, allowSetters = true)
 @SQLDelete(sql = "UPDATE penerbit SET is_deleted = true WHERE id_penerbit=?")
 @Where(clause = "is_deleted=false")
 public class Penerbit {
