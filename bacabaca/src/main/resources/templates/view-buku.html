@@ -32,7 +32,19 @@
 
           <p class="card-text m-0"><b>Penerbit</b></p>
           <p class="card-text" th:text="${buku.namaPenerbit}"></p>
-
+          <table class="table">
+            <thead>
+              <tr>
+                <td>Nama Penulis</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="penulis, iterationStatus: ${buku.listPenulis}"
+                th:style="${iterationStatus.even} ? 'color:red' : 'color:blue'">
+                <td th:text="${penulis.namaPenulis}"></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
