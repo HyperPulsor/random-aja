@@ -1,5 +1,8 @@
 package apap.tutorial.bacabaca.service;
+import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import apap.tutorial.bacabaca.repository.BukuDb;
@@ -74,5 +77,19 @@ public class BukuServiceImpl implements  BukuService{
     @Override
     public List<Buku> orderBukuJudul(){
         return bukuDb.findAllByOrderByJudulLowerAsc();
+    }
+
+    @Override
+    public Map<String, BigDecimal> getBukuHarga(){
+        List<Buku> listBuku = getAllBuku();
+        Map<String, BigDecimal> bukuHarga = new HashMap<>();
+
+        for (Buku buku : listBuku){
+            String judul = buku.getJudul();
+            BigDecimal harga = buku.getHarga();
+
+            bukuHarga.put(judul, harga);
+        }
+        return bukuHarga;
     }
 }

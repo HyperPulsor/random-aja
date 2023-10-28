@@ -221,4 +221,11 @@ public class BukuController {
         model.addAttribute("listBuku", listBuku);
         return "view-buku-chart";
     }
+
+    @GetMapping(value = "/buku/chart-buku-harga")
+    public String getChartJudulBuku(Model model){
+        var listBuku = bukuService.getBukuHarga();
+        model.addAttribute("listBuku", listBuku);
+        return "view-buku-harga-chart";
+    }
 }

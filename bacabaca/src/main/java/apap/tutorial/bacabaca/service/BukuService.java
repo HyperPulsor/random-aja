@@ -1,6 +1,9 @@
 package apap.tutorial.bacabaca.service;
 import apap.tutorial.bacabaca.model.Buku;
+
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public interface BukuService {
@@ -24,4 +27,6 @@ public interface BukuService {
     List<Buku> searchBukuJudul(String judul);
 
     List<Buku> orderBukuJudul();
+
+    Map<String, BigDecimal> getBukuHarga();
 }
