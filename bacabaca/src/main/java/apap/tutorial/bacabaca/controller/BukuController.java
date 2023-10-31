@@ -4,6 +4,7 @@ import apap.tutorial.bacabaca.dto.request.CreateBukuRequestDTO;
 import apap.tutorial.bacabaca.dto.request.UpdateBukuRequestDTO;
 import apap.tutorial.bacabaca.model.Buku;
 import apap.tutorial.bacabaca.model.Penulis;
+import apap.tutorial.bacabaca.restservice.BukuRestService;
 import apap.tutorial.bacabaca.service.BukuService;
 import apap.tutorial.bacabaca.service.PenerbitService;
 import apap.tutorial.bacabaca.service.PenulisService;
@@ -18,6 +19,8 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.naming.Binding;
+import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -31,6 +34,8 @@ public class BukuController {
     private PenerbitService penerbitService;
     @Autowired
     private PenulisService penulisService;
+    @Autowired
+    private BukuRestService bukuRestService;
 
     @GetMapping("/")
     public String home(){
@@ -205,5 +210,15 @@ public class BukuController {
         model.addAttribute("judul", buku.getJudul());
 
         return "success-create-buku";
+    }
+
+    @GetMapping(value = "/buku/chart")
+    private String getChartBuku(Model model) throws IOException, InterruptedException {
+        LocalDate currentDate = LocalDate.now();
+        String tahun = String.valueOf(currentDate.getYear());
+        String bulan = String.valueOf(currentDate.getMonthValue());
+        var listBuku = bukuRestService.getPopularRestBuku(tahun, bulan);
+        model.addAttribute("listBuku", listBuku);
+        return "view-buku-chart";
     }
 }
