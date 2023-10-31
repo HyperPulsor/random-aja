@@ -3,6 +3,49 @@
 
 * **Rakan Fasya Athhar Rayyan** - *2106750950* - *B*
 
+## Tutorial 5
+### What I have learned today
+1. Penggunaan API pada Spring Boot
+2. Visualisasi data lewat Chart
+3. HTTP Request dan HTTP Response
+4. Penggunaan Postman untuk API
+
+### Pertanyaan
+1. **Apa itu Postman? Apa kegunaannya?**
+   - Postman merupakan sebuah platform API yang digunakan untuk membangun, menguji, dan
+   memodifikasi API. Postman memiliki kemampuan untuk membuat berbagai macam request HTTP,
+   menyimpan *environments*, dan konversi API ke kode dalam banyak bahasa pemrograman. Kegunaan utama
+   dari Postman adalah untuk mengirimkan dan menerima request ke suatu *server* untuk pembuatan dan pengetesan
+   API.
+
+2. **Apa yang terjadi ketika kita tidak menggunakan @JsonIgnoreProperties dan @JsonProperty pada model Buku dan 
+Penulis? apabila terjadi error, mengapa hal tersebut dapat terjadi?**
+   - Tidak error. Saat kita menggunakan @JsonIgnoreProperties pada model Buku dan Penulis, ktia hanya
+   menentukan fields apa saja yang tidak diikutsertakan saat diserialisasikan menjadi suatu objek JSON. Ketidakhadiran
+   @JsonIgnoreProperties berarti semua fields diikutsertakan dalam objek JSON (tidak ada data tersembunyi). Sedangkan
+   @JsonProperty, menentukan nama dari fields yang akan digunakan sebagai representasi pada objek JSON.
+   Ketidakhadiran @JsonProperty berarti fields akan menggunakan penamaan default dari nama fields yang ada di class Java.
+3. **Pada tutorial ini, kita mencoba untuk memanggil data dengan menggunakan method GET. Namun, apakah kita dapat memanggil data dengan method lainya, seperti POST? Jelaskan pendapat kalian?**
+   - Iya, kita dapat menggunakan method lain, seperti POST untuk memanggil data. Hal ini dikarenakan method request hanya sebatas
+   untuk dibaca oleh server. Aksi dari request tersebut tidak ditentukan oleh tipe method request sehingga bisa saja
+   method POST digunakan untuk mengambil data. Akan tetapi, hal ini bukan merupakan *best practice* dan pasti terdapat kelebihan
+   lebih yang dimiliki oleh method GET untuk proses pengambilan data, seperti keamanan, performa, dan lain-lain.
+4. **Selain method GET dan POST, sebutkan dan jelaskan secara singkat HTTP request methods lainnya yang dapat kita gunakan!**
+   - PUT, metode request untuk memperbarui atau mengganti data yang sudah ada pada database server.
+   - PATCH, metode request untuk menerapkan sebagian modifikasi dari suatu data.
+   - DELETE, metode request untuk menghapus data-data tertentu dari database server.
+   - HEAD, metode request yang mirip dengan GET tetapi tanpa menyertakan body dari response.
+   - OPTIONS, metode reqeust yang mendeskripsikan opsi komunikasi ke target data.
+5. **Apa kegunaan atribut WebClient?**
+   - WebClient merupakan suatu interface yang merepresentasikan entri point utama dalam melakukan
+   request web. Dengan menggunakan WebClient, kita dapat membuild suatu request dengan menetapkan url, headers, data,
+   dan lain-lain. Selain mengirimkan request, kita juga dapat menerima response. Dengan menggunakan WebClient, baik 
+   response dan request, dapat diintegrasikan langsung dengan Spring Boot. Dengan demikian, dalam implementasi Spring Boot
+   kita dapat menggunakan API eskternal untuk mengirimkan request dan menerima response HTTP.
+
+### What I did not understand
+- [X] None
+
 ## Tutorial 4
 ### What I have learned today
 1. Fungsi pagination dan Datatables

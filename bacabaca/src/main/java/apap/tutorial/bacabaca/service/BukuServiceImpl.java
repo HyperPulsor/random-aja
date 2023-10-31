@@ -68,7 +68,7 @@ public class BukuServiceImpl implements  BukuService{
 
     @Override
     public List<Buku> searchBukuJudul(String judul){
-        return bukuDb.findByJudulIgnoreCase(judul);
+        return bukuDb.findByJudulContainingIgnoreCase(judul);
     }
 
     @Override

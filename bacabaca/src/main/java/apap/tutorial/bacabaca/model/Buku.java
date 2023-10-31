@@ -1,5 +1,7 @@
 package apap.tutorial.bacabaca.model;
 import java.util.UUID;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
@@ -18,6 +20,7 @@ import java.util.List;
 @Table(name = "buku")
 @SQLDelete(sql = "UPDATE buku SET is_deleted = true WHERE id=?")
 @Where(clause = "is_deleted=false")
+@JsonIgnoreProperties(value={"penerbit"}, allowSetters = true)
 public class Buku {
     @Id
     private UUID id = UUID.randomUUID();
