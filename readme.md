@@ -3,6 +3,176 @@
 
 * **Rakan Fasya Athhar Rayyan** - *2106750950* - *B*
 
+## Tutorial 6
+### What I have learned today
+1. Git Revert, Rebase, Merge, Stash, Reset
+2. Commit Tree, Git Flow, dan Git Branching
+3. Load Testing dengan JMeter
+4. Resolve Conflict pada Git
+5. Monitoring Performance dengan JConsole
+
+### Pertanyaan
+1. **Apa yang menjadi penyebab dari CONFLICT tersebut?**
+   - Penyebab dari konflik tersebut adalah perbedaan perubahan yang bertentangan atau *contradictory changes*.
+   Perbedaan tersebut terletak pada baris ke-6 bagian body dimana pada branch `feat/tutorial-6-advancedgit-1` berbeda
+   dengan branch `tut6-for-merge`. Isi teks antara dua branch tersebut berbeda sehingga mengakibatkan
+   terjadinya konflik pada saat dilakukan merge dari branch `tut6-for-merge` ke branch `feat/tutorial-6-advancedgit-1`.
+   Konflik terjadi karena Git bingung apakah kedua teks tersebut yang berbeda ingin disimpan dua-duanya, dihapus salah 
+   satu, atau dilakukan tindakan solve lainnya.
+
+2. **Jelaskan perbedaan dari "rebase –continue", "rebase –skip", dan "rebase –abort"!**
+   - Command `rebase -continue` merupakan perintah yang digunakan ketika konflik sudah selesai disolve dan akan melanjutkan
+   proses rebase. Apabila terjadi konflik, maka Git akan menghentikan proses rebase dan memberikan kesempatan user untuk
+   mengsolve konflik tersebut. Setelah disolve, maka proses rebase dilanjutkan dengan perintah `rebase -continue`.
+   - Command `rebase –skip` merupakan perintah yang digunakan apabila kita ingin mengskip suatu commit yang konflik 
+   atau tidak ingin diapply sehingga tidak diikutsertakan pada perintah rebase.
+   - Command `rebase -abort` merupakan perintah yang digunakan apabila kita ingin membatalakan proses rebase sepenuhnya.
+   Setelah proses rebase berhasil dibatalkan, maka kondisi repostiory akan berubah kembali seperti awal sebelum proses rebase.
+
+3. **Apa perbedaan Git Merge dengan Git Rebase? Buatlah/carilah ilustrasi yang dapat menggambarkan perbedaanya!**
+   - Perbedaan Git Merge dan Git Rebase adalah pada cara penggabungan perubahan atau migrasi ke branch tujuannya. Berikut
+   merupakan proses yang terjadi untuk penggabungan perubahan pada Git Merge : 
+     ![image](https://github.com/HyperPulsor/random-aja/assets/101686378/5725db2f-0ed7-4d15-b0ce-1e69d8160e44)
+   - Contoh gambar diatas adalah proses merge branch main ke branch feature dengan Git Merge. Proses merge akan menghasilkan
+   merge commit baru pada branch feature yang mencakup perubahan pada kedua branch (main dan feature).
+   
+     ![image](https://github.com/HyperPulsor/random-aja/assets/101686378/c61a7b85-93a3-4dcf-8300-fca6f304c7fe)
+   - Contoh gambar diatas adalah proses merge branch main ke branch feature dengan Git Rebase. Proses merge akan memindahkan keseluruhan
+   branch feature ke ujung dari branch main, sehingga memasukkan semua commit baru dari branch feature ke branch main. Berbeda dengan Git Merge
+   yang membuat suatu merge commit baru, Git Rebase menggantikan riwayat branch main dengan menambahkan commit-commit baru dari branch
+   feature pada branch main. Dengan demikian, riwayat commit pada proyek lebih *clean*.
+
+4. **Mengapa hal pada langkah no 4 bisa terjadi? Mengapa git stash menjadi solusinya?**
+   - Proses checkout pada langkan no 4 gagal karena perubahan lokal yang sudah dibuat yaitu penambahan line "this is the second line"
+   akan hilang apabila kita pindah ke branch `feat/tutorial-6-advancedgit-1`. Hal ini dikarenakan pada branch `feat/tutorial-6-advancedgit-1`
+   tidak terdapat folder git-stash, feature-stash.txt, ataupun isi di dalam file tersebut. Git stash menjadi salah satu solusi karena
+   menyimpan perubahan lokal yang belum dilakukan commit. Setelah dilakukan command `git stash`, maka perubahan lokal tadi menghilang dari file
+   dan disimpan secara lokal (dapat dimunculkan kembali dengan `git stash pop`. Oleh karena perubahan lokal baru sudah tidak ada, maka dapat pindah ke branch `feat/tutorial-6-advancedgit-1` karena
+   tidak ada perubahan lokal baru dari branch `feature-stash` yang dimana struktur filenya sama dengan branch `feat/tutorial-6-advancedgit-1`.
+
+5. **Sebutkan dan jelaskan tiga tipe dari Git Reset!**
+   - `git reset --hard` merupakan perintah untuk membatalkan perubahan dimana merubah `HEAD` ke commit yang dituju/dispesifikan
+   dan 
+   - `git reset --soft` merupakan perintah untuk membatalkan perubahan dimana merubah `HEAD` ke commit yang dituju, tetapi
+   menyimpan semua perubahan yang telah masuk di area staging (setelah `git add .`, sebelum `git commit`) dari commit terakhir.
+   - `git reset --mixed` merupakan perintah untuk membatalkan perubahan dimana merubah `HEAD` ke commit yang dituju, tetapi
+   menyimpan semua perubahan dan dikeluarkan dari area staging (sebelum `git add .`) dari commit terakhir.
+
+6.  **Apa itu git revert? Apa perbedaannya dengan git reset?**
+    - `git revert` merupakan perintah untuk mengembalikan kondisi file ke commit yang dituju dengan membuat suatu commit baru
+   yang dinamakan "revert commit" sehingga sejarah commit itu tidak terhapus. Perbedaannya adalah perubahan pada
+   sejarah commit dimana sejarah tersebut diubah pada `git reset`. Pada `git reset`, saat kita kembali ke commit
+   tertentu, maka commit-commit setelahnya akan terhapus dan sejarah commit tersimpan hanya sebelumnya saja. Sedangkan,
+   pada `git revert`, sejarah commit sebelum dan setelah commit yang dituju tetap tersimpan.
+
+7. **Buatlah grafik yang menggambarkan alur commit pada bagian Git Flow and Branching ini serta jelaskan! Grafik dapat berupa tulis tangan maupun menggunakan software.**
+   ![Screenshot_682](https://github.com/HyperPulsor/pbp-flutter-lab/assets/101686378/b13b3891-6a1a-4f78-852b-3e2fe9687a40)
+
+   - Pertama, dilakukan merge request dari branch `feat/tutorial-6-advancedgit-1` ke branch `main` sehingga menghasilkan
+   commit baru berupa merge request pada branch `main` dan ditambahkan pada commit tree.
+   - Kedua, akan membuat branch baru `development` dengan command `git checkout -b development` dari branch `main`. Oleh,
+   karena itu, file pada branch `development` akan sama dengan file yang ada di branch `main` dan tidak ada commit tambahan.
+   - Ketiga, pembuatan branch baru yaitu `feature-a` dengan command `git checkout -b feature-a` dari branch `development`.
+     Oleh, karena itu, file pada branch `feature-a` akan sama dengan file yang ada di branch `development`. Lalu, terdapat
+     commit tambahan baru berupa pengerjaan fitur a pada branch tersebut dan merge request dari branch `feature-a` ke branch
+     `development` sehingga ada dua commit tambahan (branch `feature-a` dan branch `development`).
+   - Keempat, pembuatan branch baru yaitu `feature-b` dengan command `git checkout -b feature-b` dari branch `development`.
+     Oleh, karena itu, file pada branch `feature-b` akan sama dengan file yang ada di branch `development`. Lalu, terdapat
+     commit tambahan baru berupa pengerjaan fitur b pada branch tersebut. Akan tetapi, ternyata terdapat commit terbaru dari branch
+     `development` (merge request pengerjaan fitur a) sehingga dilakukan rebase. Dengan melakukan rebase, maka riwayat commit dari pengerjaan
+     fitur b akan dipindahkan ke setelah commit terbaru (tapi tidak dibuat commit baru). Oleh karena terdapat konflik, maka ditambahkan commit lagi untuk mensolve
+     konflik.
+   - Kelima, akan dilakukan merge request dari branch `feature-b` ke branch `development` untuk menggabungkan development dengan fitur b
+     yang telah dikerjakan. Oleh karena itu, dibuat commit merge request baru pada branch `development`.
+
+8. **Apa kegunaan dari langkah di atas?**
+   - Langkah di atas terletak pada HTTP Header Manager dimana mengatur semua HTTP header yang akan dikirimkan ke server (localhost:8080).
+   Pada langkah tersebut, kita mengisi header HTTP berupa content-type dengan value application/json. Setelah melakukan langkah ini, 
+   setiap kali request dikirimkan ke server, maka header dengan informasi content-type json juga ikut dikirimkan. Hal ini
+   akan memberi tahu server bahwa konten yang akan dikirimkan sebagai response akan berupa tipe file json.
+
+9. **Apa itu JSON Extractor? Sebutkan semua kegunaannya di Test Plan ini!**
+   - JSON Extractor merupakan suatu alat pada JMeter yang mengambil value-value yang didapatkan dari suatu JSON response.
+   Dalam Extractor ini, diisi nama variabel untuk menyimpan value yang sudah diekstraksi yaitu `idBuku` dan JSON Path expressions untuk mengambil
+   nilai yang akan disimpan. Pada Test Plan ini, JSON Path Expression diisi dengan `$.id` untuk mendapatkan value ID Buku dari
+   response JSON setelah suatu buku dibuat dan akan disimpan pada variabel `idBuku`. Kemudian, variabel ini dapat diakses pada JSON Assertion
+   untuk update Buku berdasarkan id buku yang telah disimpan.
+
+10. **Apa itu Assertions dalam JMeter? Sebutkan contoh 3 Assertions dan kegunaannya!**
+    - Assertions dalam JMeter merupakan alat yang digunakan untuk memverifikasi atau memvalidasi suatu response. Pada test plan ini,
+    JSON Assertion mengecek apakah dalam JSON response memiliki ID Buku dengan JSON Path `$.id` dengan expected value `${idBuku}` dari variabel
+    yang menyimpan ID Buku setelah dicreate. Berikut merupakan tiga contoh Assertions :
+      1. Response Assertion, assertion yang berfungsi untuk memeriksa apakah response dari server sudah sesuai dengan ketentuan yang kita tetapkan
+      2. Duration Assertion, assertion yang berfungsi untuk memeriksa apakah waktu response diterima sesuai rentang waktu yang ditentukan
+      3. Size Assertion, assertion yang berfungsi untuk memeriksa apakah ukuran response sesuai ketentuan yang ditetapkan
+
+11. **Apa itu Number of Threads dan Ramp-up Period? Apa hubungan antar keduanya?**
+    - Number of Threads adalah jumlah "user" virtual yang akan menjalankan semua tes pada test plan yang sama secara independen.
+    Ramp-up Period adalah waktu yang dibutuhkan oleh JMeter untuk mengeksekusi semua threads. Hubungannya adalah apabila kita menentukan
+    1000 threads dengan 50 detik Ramp-up Period, maka Jmeter akan menambahkan atau mengeksekusi threads sebanyak 20 threads per detik (jumlah threads / ramp-up period).
+    Oleh karena itu, butuh total waktu 50 detik untuk secara penuh menambahkan atau mengeksekusi 1000 threads atau semua threads.
+
+12. **Gunakan angka 1000 untuk Number of Threads dan 100 untuk Ramp-up period. Jalankan Test Plan dengan konfigurasi tersebut. Kemudian, perhatikan Summary Report, View Result Tree, Graph Result, dan Assertion Result. Buatlah penjelasan minimal 2 paragraf untuk menjelaskan temuan menarik kalian terhadap hasil-hasil tersebut. Sertakan screenshot dari keempat result tersebut. Sertakan juga info mengenai prosesor, RAM, dan penggunaan hardisk HDD atau SSD dari perangkat Anda. 
+(Jika perangkat Anda tidak kuat dengan angka konfigurasi tersebut, silakan turunkan angkanya.).**
+    - Temuan menarik yang telah saya temukan adalah bahwa pada hasil View Result Tree dimana untuk test yang sama tetap bisa mengalami error.
+    Padahal, untuk fitur search buku tetap menggunakan query judul yang sama, tetapi masih berpotensi untuk mengalami error. Error yang timbul
+    adalah error dengan status kode "500 Internal Server Error". Hal ini menandakan bahwa server mengalami kondisi tak terduga yang mencegahnya memenuhi request.
+    Ketidakmampuan server dalam memenuhi request dapat diakibatkan karena load server yang terlalu tinggi. Load yang tinggi dapat menyebabkan
+    server hanya menerima request, tetapi tidak bisa memproses dan mengirimkan kembali response yang diinginkan. Oleh karena load server yang tinggi,
+    maka beberapa test bisa mengalami error atau gagal karena ketidakmampuan server untuk memberikan kembali response yang diminta.
+      ![Screenshot_686](https://github.com/HyperPulsor/Deploy_TKPBPA10/assets/101686378/3bfad3cd-8bfd-48b3-99ca-e0d5ada6ffaa)
+    - Temuan menarik lain yang saya temukan pada hasil Assertion Results dimana mayoritas dari assertion yang dilakukan, request update buku
+    banyak yang tidak berhasil diverifikasi. Akan tetapi, ada juga hasil Assertion dari update request buku yang berhasil diverifikasi.
+    Permasalahan dari ketidakberhasilan verifikasi disebabkan oleh tidak adanya JSON path untuk `$['id']` dan `$['judul']`. Hal ini dikarenakan
+    JSON response tidak mengandung field `id` ataupun `judul` di dalamnya. Penyebabnya adalah karena "Internal Server Error" yang terjadi sehingga
+    menyebabkan response JSON tidak memiliki field `id` ataupun `judul`.
+    
+      ![image](https://github.com/HyperPulsor/Deploy_TKPBPA10/assets/101686378/eaaf3841-d480-465c-9fc5-75b55a0206b5)
+      ![Screenshot_684](https://github.com/HyperPulsor/Deploy_TKPBPA10/assets/101686378/628994cb-7efb-4ede-9291-cc95203feb1c)
+      ![Screenshot_685](https://github.com/HyperPulsor/Deploy_TKPBPA10/assets/101686378/fd776122-7efc-4e24-bb1a-b88fcaec25f8)
+    - Info Spesifikasi
+      - Prosessor : **AMD Ryzen 7 5800H (8 core, 16 threads)**
+      - RAM : **16  GB**
+      - Storage : **SSD 500 GB**
+
+13. **Sembari menjalankan Test Plan, perhatikan pergerakan grafik pada JConsole. Buatlah penjelasan minimal 2 paragraf untuk menjelaskan temuan menarik 
+kalian terhadap hasil-hasil tersebut. Sertakan screenshot dari grafik-grafik tersebut.**
+    - Terdapat empat grafik yang ditampilkan pada JConsole, yaitu grafik Heap Memory Usage, Threads,
+    Classes, dan CPU Usage. Grafik ini bertujuan untuk mengawasi penggunaan *resources* selama Load Testing dilakukan
+    (berdasarkan timestamp jam). Temuan yang menarik adalah bahwa pada grafik Threads, Classes, dan CPU Usage mengalami kenaikan
+    drastis sampai ke *peak*-nya pada awal Test Plan dijalankan. Berbeda dengan grafik Heap Memory Usage, dimana grafiknya fluktuatif,
+    tetapi mengalami kenaikan secara konsisten sampai semua Test Plan selesai dieksekusi.
+    - Setelah ketiga grafik mengalami kenaikan drastis,
+    setiap grafik menunjukkan garis yang relatif stagnan atau konsisten. Hal ini menandakan bahwa Threads, Classes, dan CPU Usage (fluktuatif tapi tidak tinggi) dibutuhkan
+    tingkat penggunaan yang tinggi di awal, tetapi turun sampai menjadi stagnan dan konsisten menggunakan *resources* tersebut seiring
+    berjalannya Test Plan sampai selesai. Pada grafik Heap Memory Usage, menunjukkan bahwa terdapat penuruan drastis setelah semua
+    Test Plan dieksekusi dan kemudian penggunaannya kembali normal.
+    
+      ![Screenshot_683](https://github.com/HyperPulsor/Deploy_TKPBPA10/assets/101686378/05cbfca1-7685-4997-90c7-8692d354a9f0)
+
+14. **Apa itu Load Testing? Buatlah kesimpulan dari pengerjaan tutorial JMeter & JConsole ini.**
+    - Load Testing merupakan suatu pengujian yang dilakukan untuk mengetahui perilaku server atau sistem pada saat kondisinya
+    normal atau beban tinggi. Pengujian ini dilakukan dengan mensimulasikan user (yang dibuat JMeter) dan aksi mereka dalam melakukan 
+    task-task yang sudah ditentukan untuk menguji fungsionalitas tersebut dan kemampuan servernya pada saat mengalami beban tinggi. 
+    Kesimpulan dari pengerjaan tutorial JMeter & JConsole ini adalah untuk menguji 
+    performa fungsionalitas & server, kapasitas maksimum server, cara server dalam menangani beban tinggi dari 
+    beberapa fungsionalitas milik BacaBacaApplication (create, update, search by judul, dan random), dan validasi JSON response setiap fungsionalitas. Untuk melakukan pengujian tersebut,
+    digunakan aplikasi JMeter untuk mensimulasikan "user" atau threads. Threads tersebut kemudian akan mengeksekusi berbagai Test Plan yang sama
+    berdasarkan waktu ramp-up periode yang telah ditetapkan. Setelah semua threads berhasil dieksekusi, kita dapat menggunakan tools, seperti Assertion Results, 
+    Graph Results, View Result Tree, dan Sumary Report untuk melihat performa dan hasil tes & validasi dari setiap fungsionalitas. Temuan menarik yang telah ditemukan adalah
+    karena beban yang tinggi terkadang fungsionalitas bisa mengalami error "500 Internal Server Error" sehingga menghasilkan JSON response yang salah dan terkadang juga
+    fungsionalitas berhasil dijalankan.
+    
+    - Lalu, kita dapat menggunakan aplikasi JConsole untuk melihat grafik penggunaan *resources* server
+    (komputer lokal kita) pada saat menjalankan Test Plan pada JMeter, seperti Heap Memory Usage, Classes, Threads, dan CPU Usage.
+    Dari grafik tersebut, kita dapat mengetahui bagaimana server menggunakan berbagai sumber daya miliknya untuk mengatasi
+    *load* beban yang tinggi. Temuan menarik yang ditemukan adalah untuk grafik Threads, Classes, dan CPU Usage mengalami kenaikan drastis pada
+    awal eksekusi Test Plan kemudian menjadi relatif konsisten atau stagnan setelah beberapa saat, selama Test Plan dijalankan.
+    Kemudian, pada grafik Heap Memory Usage, dimana grafiknya fluktuatif, tetapi mengalami kenaikan secara konsisten sampai semua Test Plan selesai dieksekusi.
+
+### What I did not understand
+- [X] None
+
 ## Tutorial 5
 ### What I have learned today
 1. Penggunaan API pada Spring Boot

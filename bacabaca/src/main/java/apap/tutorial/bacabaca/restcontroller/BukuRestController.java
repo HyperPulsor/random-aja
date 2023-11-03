@@ -3,12 +3,14 @@ package apap.tutorial.bacabaca.restcontroller;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 import java.util.NoSuchElementException;
 
 import apap.tutorial.bacabaca.dto.BukuMapper;
 import apap.tutorial.bacabaca.dto.request.CreateBukuRequestDTO;
 import apap.tutorial.bacabaca.dto.request.TranslateBukuRequestDTO;
+import apap.tutorial.bacabaca.dto.request.UpdateBukuRequestDTO;
 import apap.tutorial.bacabaca.model.Buku;
 import apap.tutorial.bacabaca.rest.BukuDetail;
 import apap.tutorial.bacabaca.restservice.BukuRestService;
@@ -18,6 +20,7 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -51,6 +54,24 @@ public class BukuRestController {
         }
     }
 
+    @PutMapping(value = "/buku")
+    public Buku restUpdateBuku(@Valid @RequestBody UpdateBukuRequestDTO updateDTO, BindingResult bindingResult){
+        if (bindingResult.hasFieldErrors()) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field"
+            );
+        } else {
+            var buku = bukuMapper.updateBukuRequestDTOToBuku(updateDTO);
+            bukuRestService.updateRestBuku(buku);
+            return buku;
+        }
+    }
+
+    @GetMapping(value = "/buku/search")
+    public List<Buku> searchByJudul(@RequestParam("query") String judul) {
+        return bukuRestService.getRestBukuByJudul(judul);
+    }
+
     @PostMapping(value = "/buku/create")
     public Buku restAddBuku(@Valid @RequestBody CreateBukuRequestDTO bukuDTO, BindingResult bindingResult) {
         if (bindingResult.hasFieldErrors()) {
@@ -62,6 +83,16 @@ public class BukuRestController {
             bukuRestService.createRestBuku(buku);
             return buku;
         }
+    }
+
+    @GetMapping(value = "/random")
+    public ResponseEntity random(){
+        Random random = new Random();
+        var theBool = random.nextBoolean();
+        if (theBool){
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().build();
     }
 
     @GetMapping(value = "/buku/status")

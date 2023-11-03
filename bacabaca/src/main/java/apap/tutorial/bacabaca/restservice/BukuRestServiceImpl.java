@@ -1,6 +1,7 @@
 package apap.tutorial.bacabaca.restservice;
 
 import apap.tutorial.bacabaca.dto.request.TranslateBukuRequestDTO;
+import apap.tutorial.bacabaca.dto.request.UpdateBukuRequestDTO;
 import apap.tutorial.bacabaca.model.Buku;
 import apap.tutorial.bacabaca.repository.BukuDb;
 import apap.tutorial.bacabaca.rest.BukuDetail;
@@ -81,6 +82,11 @@ public class BukuRestServiceImpl implements BukuRestService {
     }
 
     @Override
+    public List<Buku> getRestBukuByJudul(String judul){
+        return bukuDb.findByJudulContainingIgnoreCase(judul);
+    }
+
+    @Override
     public Buku translateRestBuku(TranslateBukuRequestDTO translateBukuRequestDTO) throws IOException, InterruptedException {
         Buku buku = getRestBukuById(UUID.fromString(translateBukuRequestDTO.getBookId()));
         HttpRequest request = HttpRequest.newBuilder()
@@ -125,5 +131,19 @@ public class BukuRestServiceImpl implements BukuRestService {
                         .collect(Collectors.toMap(BukuPopuler::getName, BukuPopuler::getRating)));
         Map<String, Double> listBukuPopuler = mapMono.block();
         return listBukuPopuler;
+    }
+
+    @Override
+    public Buku updateRestBuku(Buku buku){
+        Buku bukuSearched = getRestBukuById(buku.getId());
+        if (bukuSearched != null){
+            bukuSearched.setHarga(buku.getHarga());
+            bukuSearched.setJudul(buku.getJudul());
+            bukuSearched.setListPenulis(buku.getListPenulis());
+            bukuSearched.setTahunTerbit(buku.getTahunTerbit());
+            bukuSearched.setPenerbit(buku.getPenerbit());
+            bukuDb.save(bukuSearched);
+        }
+        return bukuSearched;
     }
 }

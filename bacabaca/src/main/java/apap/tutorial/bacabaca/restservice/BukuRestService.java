@@ -1,5 +1,6 @@
 package apap.tutorial.bacabaca.restservice;
 import apap.tutorial.bacabaca.dto.request.TranslateBukuRequestDTO;
+import apap.tutorial.bacabaca.dto.request.UpdateBukuRequestDTO;
 import apap.tutorial.bacabaca.model.Buku;
 
 import java.io.IOException;
@@ -15,6 +16,8 @@ public interface BukuRestService {
     Buku getRestBukuById(UUID id);
     Mono<String> getStatus();
     Mono<BukuDetail> postStatus();
+    Buku updateRestBuku(Buku buku);
+    public List<Buku> getRestBukuByJudul(String judul);
     Buku saveTranslatedJudul(Buku buku, String translatedJudul);
     Buku translateRestBuku(TranslateBukuRequestDTO translateBukuRequestDTO) throws IOException, InterruptedException;
     public Map<String, Double> getPopularRestBuku(String tahun, String bulan) throws IOException, InterruptedException;
