@@ -173,6 +173,16 @@ kalian terhadap hasil-hasil tersebut. Sertakan screenshot dari grafik-grafik ter
 ### What I did not understand
 - [X] None
 
+### Referensi
+- https://www.blazemeter.com/blog/json-extractor
+- https://www.blazemeter.com/blog/http-header-manager
+- https://www.blazemeter.com/blog/jmeter-ramp-up-period
+- https://www.petanikode.com/git-checkout-reset-revert/
+- https://stackoverflow.com/questions/3528245/whats-the-difference-between-git-reset-mixed-soft-and-hard#:~:text=reset%20%2D%2Dsoft%20%3A%20History%20changed,go%20with%20Git%20%2D%2Dsoft.
+- https://www.atlassian.com/git/tutorials/undoing-changes/git-reset
+- https://www.atlassian.com/git/tutorials/merging-vs-rebasing
+- https://www.atlassian.com/git/tutorials/saving-changes/git-stash
+
 ## Tutorial 5
 ### What I have learned today
 1. Penggunaan API pada Spring Boot
